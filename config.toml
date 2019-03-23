@@ -1,0 +1,13 @@
+baseURL = "https://webbinaro.family/"
+languageCode = "en-us"
+title = "Webbinaro"
+theme = "hello-friend-ng"
+
+
+# [menu]
+#   [[menu.main]]
+#     identifier = "about"
+#     name       = "About"
+#     url        = "/about"
+
+
