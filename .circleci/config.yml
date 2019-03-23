@@ -21,7 +21,7 @@ jobs:
         type: string
         default: TEST   
     docker:
-      - image: circleci/node:10
+      - image: cibuilds/hugo:latest
     steps:
       - attach_workspace:
           at: /tmp/site
