@@ -6,3 +6,38 @@ workflows:
   basic:
     jobs:
       - hugo/build
+      - deploy:
+          name: Prod Deploy
+          domain: PROD
+          requires: 
+            - hugo/build
+
+
+jobs:
+  deploy:
+    parameters:
+      domain:
+        description: Environment variables prefix. For Eddie this is either TEST or REZ
+        type: string
+        default: TEST   
+    docker:
+      - image: circleci/node:10
+    steps:
+      - attach_workspace:
+          at: /tmp/site
+      - add_ssh_keys
+      - run:
+          name: Keyscan  (HACK)
+          command: ssh-keyscan -H ${<<parameters.domain>>HOST} >> ~/.ssh/known_hosts
+      - run:
+          name: Deploy public folder to <<parameters.domain>>
+          command: |
+            rsync -avz --delete /tmp/site/ ${<<parameters.domain>>USER}@${<<parameters.domain>>HOST}:${<<parameters.domain>>PATH}/
+      - run:
+          name: Simple content check
+          command: |
+            HTTPCODE=`curl -s -o /dev/null -w "%{http_code}" https://${<<parameters.domain>>HOST}/`
+            if [ "$HTTPCODE" -ne 200 ];then
+              echo "index.html not found, failing"
+              exit 1
+            fi
