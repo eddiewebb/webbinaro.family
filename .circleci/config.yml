@@ -32,7 +32,7 @@ jobs:
       - run:
           name: Deploy public folder to <<parameters.domain>>
           command: |
-            rsync -avz --delete /tmp/site/ ${<<parameters.domain>>USER}@${<<parameters.domain>>HOST}:${<<parameters.domain>>PATH}/
+            rsync -avz --delete /tmp/site/public/ ${<<parameters.domain>>USER}@${<<parameters.domain>>HOST}:${<<parameters.domain>>PATH}/
       - run:
           name: Simple content check
           command: |
