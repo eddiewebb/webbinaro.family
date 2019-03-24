@@ -10,8 +10,7 @@ workflows:
           name: Prod Deploy
           domain: PROD
           requires: 
-            - hugo/build:
-                source: project
+            - hugo/build
 
 
 jobs:
